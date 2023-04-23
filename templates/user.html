@@ -1,0 +1,33 @@
+{% extends 'base.html'%} 
+{% block title %} {% endblock %}
+
+{% block content %}
+{{user.username}}
+<form action="/users/{{user.id}}/delete" style="display:inline" method="POST">
+    <button class="btn btn-danger"><i class='fas fa-trash'>X</i></button>
+</form>
+
+{% if user.feedbacks%}
+    {% for feedback in user.feedbacks%}
+    <div>
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title text-info">{{feedback.username}}</h5>
+                <p>{{feedback.title}}</p>
+                <p class="card-text">{{feedback.content}}</p>
+                     
+                    {% if session['username'] == feedback.username%}
+                    <a href="/feedback/{{feedback.id}}/edit" class="btn btn-info">Edit</a>
+                    <form action="/feedback/{{feedback.id}}/delete" style="display:inline" method="POST">
+                        <button class="btn btn-danger"><i class='fas fa-trash'>X</i></button>
+                    </form>
+                    {% endif %}
+                    
+            </div>
+        </div>
+    </div>
+        
+    {%endfor%}
+{% endif %}
+<a class="btn btn-success" href="/users/{{user.id}}/feedback/add">Add Feedback</a>
+{% endblock %}
